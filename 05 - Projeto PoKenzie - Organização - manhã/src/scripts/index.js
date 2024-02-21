@@ -1,21 +1,23 @@
-import { pokemonList } from "./pokeDatabase.js"
+// import { pokemonList } from "./pokeDatabase.js"
+import { handleDarkMode } from "./theme.js"
+import {mountPokemonArray} from "./api.js"
 
 function createPokemonCard({ name, img, types, hp, attack, defense, speed }) {
-    const liCard = document.createElement("li");
-    liCard.classList.add('card');
+  const liCard = document.createElement("li");
+  liCard.classList.add('card');
 
-    // const iconState = "favoritado"
-    const iconState = "não-favoritado"
+  // const iconState = "favoritado"
+  const iconState = "não-favoritado"
 
-    // let favIcon = `<i class="card__fav fa-regular fa-star"></i>`
+  // let favIcon = `<i class="card__fav fa-regular fa-star"></i>`
 
-    // if (iconState === "favoritado") {
-    //     favIcon = `<i class="card__fav fa-solid fa-star"></i>`
-    // }
+  // if (iconState === "favoritado") {
+  //     favIcon = `<i class="card__fav fa-solid fa-star"></i>`
+  // }
 
-    const favIcon = iconState === "favoritado" ? `<i class="card__fav fa-solid fa-star"></i>` : `<i class="card__fav fa-regular fa-star"></i>`
+  const favIcon = iconState === "favoritado" ? `<i class="card__fav fa-solid fa-star"></i>` : `<i class="card__fav fa-regular fa-star"></i>`
 
-    liCard.innerHTML = `
+  liCard.innerHTML = `
     ${favIcon}
     <p class="card__hp">
       <span>HP</span>
@@ -39,17 +41,24 @@ function createPokemonCard({ name, img, types, hp, attack, defense, speed }) {
       </li>
     </ul>`
 
-    console.log(liCard);
-    return liCard;
+  // console.log(liCard);
+  return liCard;
 }
 
 function renderPokemonCards(pokemonArray) {
-    const ulPokemonList = document.querySelector(".cards")
+  const ulPokemonList = document.querySelector(".cards")
 
-    pokemonArray.forEach((pokemonInfo) => {
-        const pokemonCard = createPokemonCard(pokemonInfo)
-        ulPokemonList.appendChild(pokemonCard)
-    })
+  pokemonArray.forEach((pokemonInfo) => {
+    const pokemonCard = createPokemonCard(pokemonInfo)
+    ulPokemonList.appendChild(pokemonCard)
+  })
 }
 
-renderPokemonCards(pokemonList);
+async function main(){
+  handleDarkMode();
+
+  const pokemonArray = await mountPokemonArray(10)
+  renderPokemonCards(pokemonArray);
+}
+
+main()
